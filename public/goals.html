@@ -29,19 +29,19 @@
             <li>
                 <div class="collapsible-header">Nutrition</div>
                 <div class="collapsible-body">
-                    <span>Information about nutrition goes here.</span>
+                    <span>Nutrition is all about how the food we eat affects our health. We need to eat the right balance of carbohydrates, proteins, and fats to stay healthy. We also need to eat foods that have vitamins and minerals in them. Eating too much of foods that have bad fats, sugar, or salt can be bad for us. Drinking enough water is also important. By eating healthy foods in the right amounts, we can be healthy and feel good.</span>
                 </div>
             </li>
             <li>
                 <div class="collapsible-header">Fitness</div>
                 <div class="collapsible-body">
-                    <span>Information about fitness goes here.</span>
+                    <span>Fitness is all about staying active and healthy. Regular exercise can help us stay in good shape and feel good. There are different types of exercises we can do, like running, swimming, or lifting weights. We should aim to do at least 30 minutes of exercise most days of the week. Exercise can help us build strong muscles, have more energy, and feel happier. It's important to listen to our bodies and start slowly if we're new to exercising. By staying active, we can improve our overall health and well-being.</span>
                 </div>
             </li>
             <li>
                 <div class="collapsible-header">Healthy Lifestyle</div>
                 <div class="collapsible-body">
-                    <span>Information about a healthy lifestyle goes here.</span>
+                    <span>Living a healthy lifestyle means taking care of our bodies and minds. We can do this by eating healthy foods and staying active through exercise. We should also try to get enough sleep and manage stress in healthy ways, like talking to friends or doing things we enjoy. Avoiding harmful habits like smoking or drinking too much alcohol can also help us stay healthy. By making small changes in our daily routine, like taking a walk or choosing a healthier snack, we can improve our overall health and well-being.</span>
                 </div>
             </li>
         </ul>
@@ -80,7 +80,6 @@
 
         // Function to load goals from the server
         async function loadGoals() {
-            // Replace with your actual API URL
             const response = await fetch('/api/goals');
             goals = await response.json();
             renderGoals();
@@ -111,7 +110,6 @@
 
         // Function to add a new goal
         async function addGoal(goal) {
-            // Replace with your actual API URL
             const response = await fetch('http://localhost:3000/api/goals', {
                 method: 'POST',
                 headers: {
@@ -130,7 +128,6 @@
             const goal = goals[index];
             goal.completed = true;
 
-            // Replace with your actual API URL
             await fetch(`/http://localhost:3000/api/goals${goal.id}`, {
                 method: 'PUT',
                 headers: {
@@ -146,7 +143,6 @@
         async function deleteGoal(index) {
             const goal = goals[index];
 
-            // Replace with your actual API URL
             await fetch(`http://localhost:3000/api/goals${goal.id}`, {
                 method: 'DELETE',
             });
