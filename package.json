@@ -1,0 +1,34 @@
+{
+    "name": "webapp2",
+    "version": "1.0.0",
+    "description": "WEBAPP2 README",
+    "keywords": [
+        "node.js",
+        "express"
+    ],
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/JBEATT/WEBAPP2.git"
+    },
+    "author": "JBEATT",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/JBEATT/WEBAPP2/issues"
+    },
+    "homepage": "https://github.com/JBEATT/WEBAPP2#readme",
+    "dependencies": {
+        "bcrypt": "^5.1.0",
+        "body-parser": "^1.20.2",
+        "connect-flash": "^0.1.1",
+        "express": "^4.18.2",
+        "express-session": "^1.17.3",
+        "materialize-css": "^1.0.0",
+        "nedb": "^1.8.0",
+        "nodemon": "^2.0.22",
+        "path": "^0.12.7"
+    }
+}

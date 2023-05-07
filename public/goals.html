@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goals</title>
+    <link rel="stylesheet" href="/materialize/css/materialize.min.css">
+    <script src="/materialize/js/materialize.min.js"></script>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">
+                <img src="/img/health.png" alt="Your Brand Name" height="60" />
+            </a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="/register">Register</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/goals">Goals</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h2>Goals</h2>
+        <ul class="collapsible">
+            <li>
+                <div class="collapsible-header">Nutrition</div>
+                <div class="collapsible-body">
+                    <span>Information about nutrition goes here.</span>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header">Fitness</div>
+                <div class="collapsible-body">
+                    <span>Information about fitness goes here.</span>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header">Healthy Lifestyle</div>
+                <div class="collapsible-body">
+                    <span>Information about a healthy lifestyle goes here.</span>
+                </div>
+            </li>
+        </ul>
+        <form id="goalsForm">
+            <div class="input-field">
+                <input id="goalTitle" type="text" name="title" required>
+                <label for="goalTitle">Goal Title</label>
+            </div>
+            <div class="input-field">
+                <select id="goalCategory" name="category" required>
+                    <option value="" disabled selected>Choose category</option>
+                    <option value="nutrition">Nutrition</option>
+                    <option value="fitness">Fitness</option>
+                    <option value="healthy-lifestyle">Healthy Lifestyle</option>
+                </select>
+                <label for="goalCategory">Category</label>
+            </div>
+            <div class="input-field">
+                <input id="goalDate" type="date" name="date" required>
+                <label for="goalDate">Date</label>
+            </div>
+            <button class="btn waves-effect waves-light" type="submit">Add Goal</button>
+        </form>
+        <div id="goalsList"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const elems = document.querySelectorAll('select');
+            M.FormSelect.init(elems);
+            const collapsibleElems = document.querySelectorAll('.collapsible');
+            M.Collapsible.init(collapsibleElems);
+        });
+
+        // Goals array to store goals locally
+        let goals = [];
+
+        // Function to load goals from the server
+        async function loadGoals() {
+            // Replace with your actual API URL
+            const response = await fetch('/api/goals');
+            goals = await response.json();
+            renderGoals();
+        }
+
+        // Function to render goals on the page
+        function renderGoals() {
+            const goalsList = document.getElementById('goalsList');
+            goalsList.innerHTML = '';
+
+            goals.forEach((goal, index) => {
+                const goalItem = document.createElement('div');
+                goalItem.className = 'goal-item card';
+                goalItem.innerHTML = `
+            <div class="card-content">
+                <span class="card-title">${goal.title} (${goal.category})</span>
+                <p>Date: ${goal.date}</p>
+                <p>Completed: ${goal.completed ? 'Yes' : 'No'}</p>
+            </div>
+            <div class="card-action">
+                <button class="btn-small" onclick="completeGoal(${index})">Complete</button>
+                <button class="btn-small red" onclick="deleteGoal(${index})">Delete</button>
+            </div>
+        `;
+                goalsList.appendChild(goalItem);
+            });
+        }
+
+        // Function to add a new goal
+        async function addGoal(goal) {
+            // Replace with your actual API URL
+            const response = await fetch('http://localhost:3000/api/goals', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(goal),
+            });
+
+            const newGoal = await response.json();
+            goals.push(newGoal);
+            renderGoals();
+        }
+
+        // Function to complete a goal
+        async function completeGoal(index) {
+            const goal = goals[index];
+            goal.completed = true;
+
+            // Replace with your actual API URL
+            await fetch(`/http://localhost:3000/api/goals${goal.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(goal),
+            });
+
+            renderGoals();
+        }
+
+        // Function to delete a goal
+        async function deleteGoal(index) {
+            const goal = goals[index];
+
+            // Replace with your actual API URL
+            await fetch(`http://localhost:3000/api/goals${goal.id}`, {
+                method: 'DELETE',
+            });
+
+            goals.splice(index, 1);
+            renderGoals();
+        }
+
+        // Load goals on page load
+        loadGoals();
+
+        // Handle form submission for adding goals
+        document.getElementById('goalsForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const goalTitle = document.getElementById('goalTitle').value;
+            const goalCategory = document.getElementById('goalCategory').value;
+            const goalDate = document.getElementById('goalDate').value;
+
+            const newGoal = {
+                title: goalTitle,
+                category: goalCategory,
+                date: goalDate,
+                completed: false,
+            };
+
+            addGoal(newGoal);
+        });
+    </script>
+</body>
+
+</html>
